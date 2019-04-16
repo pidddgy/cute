@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions } from 'expo';
-
+import { StyleSheet, Text, View } from 'react-native';
+import { Camera, Permissions, FaceDetector } from 'expo';
 export default class CameraPreview extends React.Component {
   state = {
     hasCameraPermission: null,
@@ -13,6 +12,10 @@ export default class CameraPreview extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  async handleFacesDetected(e) {
+    console.log(e.faces);
+  }
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -22,7 +25,15 @@ export default class CameraPreview extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera
+            style={{ flex: 1 }}
+            onFacesDetected={this.handleFacesDetected}
+            type={this.state.type}
+            faceDetectorSettings={{
+              mode: FaceDetector.Constants.Mode.fast,
+              detectLandmarks: FaceDetector.Constants.Landmarks.all,
+            }}
+            >
             <View
               style={{
                 flex: 1,
