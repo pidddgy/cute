@@ -28,12 +28,13 @@ export default class CameraPreview extends React.Component {
           <Camera
             style={{ flex: 1 }}
             onFacesDetected={this.handleFacesDetected}
-            type={this.state.type}
             faceDetectorSettings={{
               mode: FaceDetector.Constants.Mode.fast,
               detectLandmarks: FaceDetector.Constants.Landmarks.all,
+              runClassifications: FaceDetector.Constants.Classifications.none,
             }}
             >
+            
             <View
               style={{
                 flex: 1,
