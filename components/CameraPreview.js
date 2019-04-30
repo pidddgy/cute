@@ -45,21 +45,15 @@ export default class CameraPreview extends React.Component {
             ratio="16:9"
             >
 
-
-                 {/* */}   
-
-              
-            
-            
           </Camera>
           {
                 this.state.facepos.map((face, index) => {
                  return(
                   <Image source={require('../assets/dreadlocks.png')} key={index}
                   style={{
-                    width:face.bounds.size.width, 
-                    height:face.bounds.size.height,
-                    left: face.bounds.origin.x,
+                    width:face.bounds.size.width*1.5, 
+                    height:face.bounds.size.height*1.5,
+                    left: face.bounds.origin.x-face.bounds.size.width/5,
                     top: face.bounds.origin.y,
                     position:"absolute",
                   }}> 
