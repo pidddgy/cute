@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { Camera, Permissions, FaceDetector } from 'expo';
 
 export default class CameraPreview extends React.Component {
@@ -9,7 +9,7 @@ export default class CameraPreview extends React.Component {
     facepos: [],
   };
 
-  async componentDidMount() {
+  async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
@@ -41,14 +41,34 @@ export default class CameraPreview extends React.Component {
               detectLandmarks: FaceDetector.Constants.Landmarks.all,
               runClassifications: FaceDetector.Constants.Classifications.none,
             }}
+            ratio="16:9"
             >
-          <View style={{flex: 1, backgroundColor: 'transparent'}}>
 
-            <Text> H </Text>
+
+           {
+              this.state.facepos.map(function(face, index) {
+                return(
+                  <Image source={require('../assets/dreadlocks.png')} key={index}
+                      style={{
+                        width:100, 
+                        height:100,
+                        left: face.bounds.origin.x,
+                        top: face.bounds.origin.y,
+                        position:"absolute",
+                      }}> 
+                    </Image>
+                  
+
+                )
+                
+              })
+            }
             
-          </View>
+            
           </Camera>
-        </View>
+
+          </View>
+          
 
       );
     }
