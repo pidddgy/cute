@@ -22,6 +22,7 @@ export default class CameraPreview extends React.Component {
     console.log(this.state.facepos);
   }
 
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -34,10 +35,10 @@ export default class CameraPreview extends React.Component {
         <View style={{ flex: 1 }}>
           
           <Camera
-            style={{ flex: 1 }}
+            style={{ flex: 1, zIndex:-1 }}
             onFacesDetected={this.handleFacesDetected.bind(this)}
             faceDetectorSettings={{
-              mode: FaceDetector.Constants.Mode.fast,
+              mode: FaceDetector.Constants.Mode.accurate,
               detectLandmarks: FaceDetector.Constants.Landmarks.all,
               runClassifications: FaceDetector.Constants.Classifications.none,
             }}
@@ -45,27 +46,27 @@ export default class CameraPreview extends React.Component {
             >
 
 
-           {
-              this.state.facepos.map(function(face, index) {
-                return(
-                  <Image source={require('../assets/dreadlocks.png')} key={index}
-                      style={{
-                        width:100, 
-                        height:100,
-                        left: face.bounds.origin.x,
-                        top: face.bounds.origin.y,
-                        position:"absolute",
-                      }}> 
-                    </Image>
-                  
+                 {/* */}   
 
-                )
-                
-              })
-            }
+              
             
             
           </Camera>
+          {
+                this.state.facepos.map((face, index) => {
+                 return(
+                  <Image source={require('../assets/dreadlocks.png')} key={index}
+                  style={{
+                    width:face.bounds.size.width, 
+                    height:face.bounds.size.height,
+                    left: face.bounds.origin.x,
+                    top: face.bounds.origin.y,
+                    position:"absolute",
+                  }}> 
+                </Image> 
+                 )
+                })
+          }
 
           </View>
           
