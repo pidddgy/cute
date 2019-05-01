@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Camera, Permissions, FaceDetector } from 'expo';
+import { Camera, Permissions, FaceDetector, ScreenOrientation } from 'expo';
 
 export default class CameraPreview extends React.Component {
   state = {
@@ -12,6 +12,7 @@ export default class CameraPreview extends React.Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+    ScreenOrientation.allowAsync("ALL");
   }
 
   async handleFacesDetected (e) {
@@ -19,7 +20,7 @@ export default class CameraPreview extends React.Component {
       facepos: e.faces,
     })
 
-    console.log(this.state.facepos);
+   // console.log(this.state.facepos);
   }
 
 
@@ -48,15 +49,20 @@ export default class CameraPreview extends React.Component {
           </Camera>
           {
                 this.state.facepos.map((face, index) => {
+                  console.log(Math.round(face.rollAngle)+"deg");
+                  let rot = Math.round(face.rollAngle)+"deg";
                  return(
                   <Image source={require('../assets/dreadlocks.png')} key={index}
                   style={{
                     width:face.bounds.size.width*1.5, 
                     height:face.bounds.size.height*1.5,
-                    left: face.bounds.origin.x-face.bounds.size.width/5,
+                    left: face.bounds.origin.x-face.bounds.size.width/4,
                     top: face.bounds.origin.y,
                     position:"absolute",
-                  }}> 
+                    transform: [{ rotate: rot}]
+                  }}
+                  > 
+                  
                 </Image> 
                  )
                 })
